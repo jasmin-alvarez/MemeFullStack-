@@ -1,3 +1,10 @@
+
+![Photo](public/photo.png)
+![Photo2](public/img/photo2.png)
+
+
+
+
 ## Installation
 
 1. Clone repo

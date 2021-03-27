@@ -1,3 +1,9 @@
+//  Worked with House Cass and my House Hayden 
+// Kiany,Kevin S , Kevin C, Alief, Jerry,Khorally , Rodas,Tamika ,Guth etc  
+
+
+
+
 module.exports = function(app, passport, db) {
 
 // normal routes ===============================================================
@@ -26,35 +32,102 @@ module.exports = function(app, passport, db) {
 
 // message board routes ===============================================================
 
-    app.post('/messages', (req, res) => {
-      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
-        if (err) return console.log(err)
-        console.log('saved to database')
-        res.redirect('/profile')
-      })
-    })
+// // if thumbsup is clicked on than it will follow the above(first goes to main.js than
+// // goes to routes.ejs) else it go to the thumbs down condition 
+// // routes.ejs will use db collection methods (mongoDB) to modify the document 
+// // https://docs.mongodb.com/manual/reference/method/js-collection/
+// //https://expressjs.com/en/5x/api.html#req.body  (req.body)
+// // request object and response object (express)
+// // res object represents the HTTP response 
 
-    app.put('/messages', (req, res) => {
-      db.collection('messages')
-      .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-        $set: {
-          thumbUp:req.body.thumbUp + 1
-        }
-      }, {
-        sort: {_id: -1},
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.send(err)
-        res.send(result)
-      })
-    })
 
-    app.delete('/messages', (req, res) => {
-      db.collection('messages').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
-        if (err) return res.send(500, err)
-        res.send('Message deleted!')
-      })
+app.post('/messages', (req, res) => {
+  db.collection('messages').save({
+    name: req.body.name, 
+    src: req.body.src, 
+    value: 0, 
+    thumbsUp:"",
+    thumbsDown: ""}, (err, result) => {
+    if (err) return console.log(err)
+    console.log('saved to database')
+    res.redirect('/profile')
+  })
+})
+
+app.put('/messages', (req, res) => {
+  if(req.body.thumbsUp == "yeah"){
+    db.collection('messages')
+    .findOneAndUpdate({
+      name: req.body.name,
+      src: req.body.src, 
+    },
+    {
+      $set: {
+        value:req.body.value + 1,
+        thumbsUp: req.body.thumbsUp,
+        thumbsDown: req.body.thumbsDown
+      }
+    }, {
+      sort: {_id: -1},
+      upsert: true
+    }, (err, result) => {
+      if (err) return res.send(err)
+      res.send(result)
     })
+} else if((req.body.thumbsDown == "yeah") && (req.body.value!=0)){
+    db.collection('messages')
+    .findOneAndUpdate({
+      name: req.body.name, 
+      src: req.body.src,
+    }, 
+     {
+    $set: {
+        value:req.body.value -1,
+        thumbsUp: req.body.thumbsUp,
+        thumbsDown: req.body.thumbsDown
+    }
+  }, {
+    sort: {_id: -1},
+    upsert: true
+  }, (err, result) => {
+    if (err) return res.send(err)
+    res.send(result)
+    })
+  }
+})
+
+app.delete('/messages', (req, res) => {
+  db.collection('messages').findOneAndDelete({
+    name: req.body.name, 
+  }, (err, result) => {
+    if (err) return res.send(500, err)
+    res.send('Message deleted!')
+  })
+})
+
+
+// app.put('/messages', (req, res) => {
+//   console.log(req.body)
+//   db.collection('messages')
+//   .findOneAndUpdate({_id: ObjectId(req.body.id)}, {
+//     $set: {
+//       heart: req.body.heart,
+//       fav: req.body.fav
+//     }
+//   }, {
+//     sort: {_id: -1},
+//     upsert: true
+//   }, (err, result) => {
+//     if (err) return res.send(err)
+//     res.send(result)
+//   })
+// })
+
+// app.delete('/messages', (req, res) => {
+//   db.collection('messages').findOneAndDelete({_id: ObjectId(req.body.id)}, (err, result) => {
+//     if (err) return res.send(500, err)
+//     res.send('Message deleted!')
+//   })
 
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================

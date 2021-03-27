@@ -1,7 +1,61 @@
+
+
+
+img{
+  height: 200px;
+} 
+
+
 body{
   padding-top:80px;
   word-wrap:break-word;
+  background-image: url("https://motionarray.imgix.net/preview-585264-X6ESSkHPwr-high_0000.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
-img{
-  height: 200px;
+
+.jumbotron {
+  width:50%;
+  background-color: rgba(255, 251, 0, 0.678);
+  margin-left:25%;
+  height:40%;
+  color: rgba(255, 136, 0, 0.932);
+  font-weight: bolder;
 }
+.btn-default, .btn, .submit{
+  background: rgb(250, 248, 135);
+  color: rgba(255, 136, 0, 0.932);
+  border: 1px solid white;
+}
+#profileBg {
+  background: rgb(250, 248, 135);
+  color: rgba(255, 136, 0, 0.932);
+
+}
+
+.col-sm-6{
+  margin-left:30%;
+  
+}
+
+li{
+  float:left;
+  padding:5%;
+  list-style: none;
+  width:50%;
+  
+
+}
+
+ul{
+  display:inline;
+  font-size:20px;
+}
+
+h2{
+  margin-left:20%;
+  
+}
+
+
