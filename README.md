@@ -1,5 +1,5 @@
 
-![Photo](public/photo1.png)
+![Photo](public/img/photo1.png)
 ![Photo2](public/img/photo2.png)
 
 
